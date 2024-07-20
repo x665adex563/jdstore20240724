@@ -28,6 +28,10 @@ class OrdersController < ApplicationController
     @product_lists = @order.product_lists
   end
 
+  def index
+    @orders = current_user.orders.order("id DESC")
+  end
+
   private
 
   def order_params
