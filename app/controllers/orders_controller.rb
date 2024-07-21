@@ -32,6 +32,22 @@ class OrdersController < ApplicationController
     @orders = current_user.orders.order("id DESC")
   end
 
+  def pay_with_creditcard
+    @order = Order.find_by_token(params[:id])
+    @order.set_payment_with!("creditcard")
+    @order.pay!
+
+    redirect_to order_path(@order.token), notice: "使用信用卡成功完成付款"
+  end
+
+  def pay_with_ewallet
+    @order = Order.find_by_token(params[:id])
+    @order.set_payment_with!("ewallet")
+    @order.pay!
+
+    redirect_to order_path(@order.token), notice: "使用電子錢包成功完成付款"
+  end
+
   private
 
   def order_params
